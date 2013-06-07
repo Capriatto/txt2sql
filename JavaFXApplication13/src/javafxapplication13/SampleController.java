@@ -20,6 +20,9 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.Dialogs;
+import javafx.scene.control.Dialogs.DialogOptions;
+import javafx.scene.control.Dialogs.DialogResponse;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
@@ -38,6 +41,7 @@ public class SampleController implements Initializable {
     ArrayList separados = new ArrayList();//lineas sin delimitador
     String separador;
     Boolean estadoIf = false;
+    int res;
     File file;
     @FXML // indica que se hace una referencia a los componentes del archivo FXML "Sample"
     public Label label;
@@ -195,11 +199,12 @@ public class SampleController implements Initializable {
     }
 
     public void exit(ActionEvent event) {
-        int res = JOptionPane.showConfirmDialog(null, "¿Desea salir?", "Salir", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
-        if (res == JOptionPane.YES_OPTION) {
+       DialogResponse response = Dialogs.showConfirmDialog(null, "¿Desea salir de la aplicación?",
+      "SALIR", "Aviso importante", DialogOptions.OK_CANCEL);
+        if (String.valueOf(response).equals("OK")) {
             System.exit(0);
         }
-    }
+      }
 
     public void convert(ActionEvent event) throws FileNotFoundException, IOException {
         buttonConvertir.setDisable(true);
