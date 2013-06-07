@@ -8,6 +8,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URL;
 import java.text.DecimalFormat;
@@ -28,7 +29,6 @@ import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
 import javafx.stage.FileChooser;
-import javax.swing.JOptionPane;
 
 /**
  *
@@ -41,6 +41,8 @@ public class SampleController implements Initializable {
     ArrayList separados = new ArrayList();//lineas sin delimitador
     String separador;
     Boolean estadoIf = false;
+    StringBuffer stringbufer = new StringBuffer();
+    ;
     int res;
     File file;
     @FXML // indica que se hace una referencia a los componentes del archivo FXML "Sample"
@@ -116,7 +118,15 @@ public class SampleController implements Initializable {
         bf = new BufferedReader(fr);
         int longLinea = 0; //longitud de la línea del txt
 
-
+        for (int i = 0; i < tipoDato.size(); i++) {
+           String coincidencia=(String) tipoDato.get(i);
+           int  posicion= coincidencia.lastIndexOf("(");
+           String impresion= coincidencia.substring(0, posicion);
+            System.out.println(""+impresion);
+        }
+        
+        stringbufer.append("INSERT INTO ".concat(txtNombre.getText().trim()));
+        stringbufer.append(" ".concat("("));
         while ((sCadena = bf.readLine()) != null) {
             lineaTexto.add(sCadena);
         }
@@ -136,27 +146,41 @@ public class SampleController implements Initializable {
 
             for (int j = 0; j < contador; j++) { // imprimiendo todos los tokens de cada línea
                 if (j == 0) {
-                    System.out.print("(");
+                    stringbufer.append("(");
                 }//cierrra for
 
 
                 if (j != (contador - 1)) {
-                    System.out.print(sto.nextToken() + ",");
+
+                    stringbufer.append(sto.nextToken().concat(","));
                 }//cierra if
                 else if (i != line) {
-                    System.out.print(sto.nextToken() + "),");
+                    stringbufer.append(sto.nextToken().concat("),"));
                 }//cierra else
                 else {
-                    System.out.println(sto.nextToken() + ");");
+                    stringbufer.append(sto.nextToken().concat(");"));
                 }
             }
-            System.out.print("\n");
+            stringbufer.append("\r\n");
 
         }
 
 
 
 
+        System.out.println("" + stringbufer);
+
+//        FileChooser chooser = new FileChooser();
+//        File f = chooser.showSaveDialog(null);
+//        if (f != null) {
+//            FileWriter fw = new FileWriter(f);
+//            fw.write(String.valueOf(stringbufer));
+//            fw.close();
+
+        
+        
+//        }
+        
 
 
     }
@@ -199,12 +223,12 @@ public class SampleController implements Initializable {
     }
 
     public void exit(ActionEvent event) {
-       DialogResponse response = Dialogs.showConfirmDialog(null, "¿Desea salir de la aplicación?",
-      "SALIR", "Aviso importante", DialogOptions.OK_CANCEL);
+        DialogResponse response = Dialogs.showConfirmDialog(null, "¿Desea salir de la aplicación?",
+                "SALIR", "Aviso importante", DialogOptions.OK_CANCEL);
         if (String.valueOf(response).equals("OK")) {
             System.exit(0);
         }
-      }
+    }
 
     public void convert(ActionEvent event) throws FileNotFoundException, IOException {
         buttonConvertir.setDisable(true);
