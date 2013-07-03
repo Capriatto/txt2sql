@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<?scenebuilder-background-color 0x8fff00ff?>
+
+<AnchorPane id="AnchorPane" minHeight="190.8200996948217" prefHeight="321.8200996948217" prefWidth="333.0000999999975" style="-fx-background-color: #E2E2E2;&#10;-fx-border-radius: 19;&#10;   " xmlns:fx="http://javafx.com/fxml" fx:controller="javafxapplication13.SampleController">
+  <children>
+    <Button fx:id="button" layoutX="81.0" layoutY="53.0" onAction="#handleButtonAction" prefWidth="186.0" text="Elegir archivo ..." />
+    <Label fx:id="label" layoutX="74.0" layoutY="274.0" minHeight="16.0" minWidth="69.0" prefHeight="16.0" prefWidth="210.0" />
+    <TextField fx:id="txtNombre" layoutX="134.0" layoutY="230.0" prefWidth="147.0" style="border-radius:5px;" />
+    <Label layoutX="27.0" layoutY="233.0" text="Nombre de tabla sql:" />
+    <Label layoutX="58.0" layoutY="12.0" text="Archivo plano a sql">
+      <font>
+        <Font name="28 Days Later" size="25.0" />
+      </font>
+    </Label>
+    <Label fx:id="lblpath" layoutX="8.0" layoutY="78.0" prefWidth="325.0001220703125" />
+    <CheckBox fx:id="cbPeso" disable="true" layoutX="27.0" layoutY="110.0" mnemonicParsing="false" onAction="#checked" text="peso de archivo" />
+    <CheckBox fx:id="cbCantidad" disable="true" layoutX="27.0" layoutY="135.0" mnemonicParsing="false" onAction="#numeroLineas" text="cantidad de lineas " />
+    <Label fx:id="lblPeso" layoutX="148.0" layoutY="110.0" prefWidth="85.0" />
+    <Label fx:id="lblCantidad" layoutX="148.0" layoutY="135.0" prefWidth="96.0" />
+    <Label layoutX="95.0" layoutY="159.0" prefWidth="159.0" text="SEPARADOR DE COLUMNAS" textFill="#292929">
+      <font>
+        <Font name="System Bold" size="11.0" />
+      </font>
+    </Label>
+    <Label layoutX="201.0" layoutY="191.0" text="Otro" />
+    <TextField fx:id="txtOtro" layoutX="231.0" layoutY="188.0" prefWidth="47.0" />
+    <RadioButton fx:id="rbPuntoycoma" layoutX="30.0" layoutY="191.0" mnemonicParsing="false" text=";">
+      <toggleGroup>
+        <ToggleGroup fx:id="grupo" />
+      </toggleGroup>
+    </RadioButton>
+    <RadioButton fx:id="rbComa" layoutX="91.0" layoutY="191.0" mnemonicParsing="false" prefWidth="64.0" text="," toggleGroup="$grupo" />
+    <RadioButton fx:id="rbBarras" layoutX="152.0" layoutY="191.0" mnemonicParsing="false" text="||" toggleGroup="$grupo" />
+    <Button layoutX="305.0" layoutY="1.0" minHeight="16.0" minWidth="22.0" mnemonicParsing="false" onAction="#exit" prefHeight="17.0" prefWidth="27.0" text="X" textFill="#404040" textOverrun="LEADING_ELLIPSIS" />
+    <Button fx:id="buttonConvertir" layoutX="43.0" layoutY="289.0" mnemonicParsing="false" onAction="#convert" prefWidth="248.0" text="Convertir y descargar archivo sql" />
+    <Label fx:id="lblSeparador" layoutX="30.0" layoutY="213.0" prefWidth="268.0" />
+  </children>
+</AnchorPane>
