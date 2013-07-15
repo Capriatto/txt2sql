@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.ResourceBundle;
 import java.util.Scanner;
 import java.util.StringTokenizer;
+import javafx.animation.FadeTransition;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -31,13 +32,14 @@ import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
 import javafx.stage.FileChooser;
+import javafx.util.Duration;
 
 /**
  *
  * @author oky
  */
 public class SampleController implements Initializable {
-    
+
     ArrayList lineaTexto = new ArrayList();
     ArrayList tipoDato = new ArrayList();
     ArrayList separados = new ArrayList();//lineas sin delimitador
@@ -81,6 +83,8 @@ public class SampleController implements Initializable {
     public RadioButton rbBarras;
     @FXML // indica que se hace una referencia a los componentes del archivo FXML "Sample"
     FileReader fr;
+    @FXML
+    Label labelClipboard;
     BufferedReader bf;
     String tipoTexto;
     String tipoNum;
@@ -88,7 +92,7 @@ public class SampleController implements Initializable {
     String primeraLinea;
     int contador;
     int countTokens;
-    
+
     @FXML
     private void handleButtonAction(ActionEvent event) throws FileNotFoundException {
         cbPeso.setSelected(false);
@@ -98,14 +102,14 @@ public class SampleController implements Initializable {
         FileChooser chooser = new FileChooser();
         FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("TXT files y CSV files (*.txt, *.csv)", "*.txt", "*.csv");
         chooser.getExtensionFilters().add(extFilter);
-        
+
         try {
             file = chooser.showOpenDialog(null);
             lblpath.setStyle("-fx-font-weight: normal;");
             lblpath.setText(file.getPath());
             cbPeso.setDisable(false);
             cbCantidad.setDisable(false);
-            } catch (Exception e) {
+        } catch (Exception e) {
             System.out.println("no se pudo leer un archivo o no fue cargado.");
             lblpath.setStyle("-fx-font-weight: bold; -fx-text-fill: #F27954;");
             lblpath.setText("No ha elegido un archivo, o está dañado.");
@@ -113,7 +117,7 @@ public class SampleController implements Initializable {
             cbCantidad.setDisable(true);
         }
     }
-    
+
     @FXML
     public void readingtxt() throws FileNotFoundException, IOException {
         fr = new FileReader(file);
@@ -126,7 +130,7 @@ public class SampleController implements Initializable {
             String impresion = coincidencia.substring(0, posicion);
             System.out.println("" + impresion);
         }
-        
+
         stringbufer.append("INSERT INTO ".concat(txtNombre.getText().trim()));
         stringbufer.append(" ".concat("( )").concat(" VALUES").concat("\n"));
         while ((sCadena = bf.readLine()) != null) {
@@ -145,15 +149,15 @@ public class SampleController implements Initializable {
         for (int i = 1; i < lineaTexto.size(); i++) {
             StringTokenizer sto = new StringTokenizer(lineaTexto.get(i).toString(), separador);
             int line = (lineaTexto.size() - 1);
-            
+
             for (int j = 0; j < contador; j++) { // imprimiendo todos los tokens de cada línea
                 if (j == 0) {
                     stringbufer.append("(");
                 }//cierrra for
 
-                
+
                 if (j != (contador - 1)) {
-                    
+
                     stringbufer.append(sto.nextToken().concat(","));
                 }//cierra if
                 else if (i != line) {
@@ -164,17 +168,17 @@ public class SampleController implements Initializable {
                 }
             }
             stringbufer.append("\r\n");
-            
+
         }
-        
-        
-        
+
+
+
         textoGenerado = stringbufer.toString();
         System.out.println("" + stringbufer);
     }
-    
+
     public void checked(ActionEvent event) {
-        
+
         try {
             if (cbPeso.isSelected()) {
                 if (file.length() > 1000) {
@@ -191,15 +195,15 @@ public class SampleController implements Initializable {
         } catch (Exception e) {
             System.out.println("No se pudo determinar el peso del archivo por Ausencia o Daño en el mismo.");
         }
-        
+
     }
-    
+
     public void numeroLineas(ActionEvent event) throws FileNotFoundException, IOException {
         if (cbCantidad.isSelected()) {
             fr = new FileReader(file);
             bf = new BufferedReader(fr);
             long lNumeroLineas = 0;
-            
+
             while ((sCadena = bf.readLine()) != null) {
                 lNumeroLineas++;
                 System.out.println("" + sCadena);
@@ -209,7 +213,7 @@ public class SampleController implements Initializable {
             lblCantidad.setText("");
         }
     }
-    
+
     public void exit(ActionEvent event) {
         DialogResponse response = Dialogs.showConfirmDialog(null, "¿Desea salir de la aplicación?",
                 "SALIR", "Aviso importante", DialogOptions.OK_CANCEL);
@@ -217,13 +221,13 @@ public class SampleController implements Initializable {
             System.exit(0);
         }
     }
-    
+
     public void convert(ActionEvent event) throws FileNotFoundException, IOException {
-        
+
         buttonConvertir.setDisable(true);
         Scanner s = new Scanner(file);
-        
-        
+
+
         if (txtOtro.getText().isEmpty() == false) {
             separador = txtOtro.getText().trim();
             lblSeparador.setStyle("-fx-font-weight: bold; -fx-text-fill: #1E70AB;");
@@ -237,17 +241,25 @@ public class SampleController implements Initializable {
         } else if (grupo.getSelectedToggle().toString().equals("RadioButton[id=rbComa, styleClass=radio-button]")) {
             separador = ",";
         }
-        
+
         System.out.println("al final el separador sql es: " + separador);
-        
+
         readingtxt();
         Toolkit toolkit = Toolkit.getDefaultToolkit();
         Clipboard clipboard = toolkit.getSystemClipboard();
         System.out.println(stringbufer.toString());
         StringSelection strSel = new StringSelection(textoGenerado);
         clipboard.setContents(strSel, null);
+        labelClipboard.setText("¡Se ha convertido exitosamente! Presione ctrl+v en un editor para obtener el SQL");
+        labelClipboard.setStyle("-fx-font-weight: bold; -fx-text-fill: #F27954;");
+        FadeTransition fadeTransition2 = new FadeTransition(Duration.millis(8000), labelClipboard);
+        fadeTransition2.setFromValue(1.0);
+        fadeTransition2.setToValue(0.0);
+        fadeTransition2.autoReverseProperty();
+        fadeTransition2.play();
+        
     }
-    
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO

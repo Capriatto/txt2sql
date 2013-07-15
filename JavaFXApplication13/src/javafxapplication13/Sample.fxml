@@ -10,10 +10,10 @@
 <?import javafx.scene.text.*?>
 <?scenebuilder-background-color 0x8fff00ff?>
 
-<AnchorPane id="AnchorPane" minHeight="190.8200996948217" prefHeight="321.8200996948217" prefWidth="333.0000999999975" style="-fx-background-color: #E2E2E2;&#10;-fx-border-radius: 19;&#10;   " xmlns:fx="http://javafx.com/fxml" fx:controller="javafxapplication13.SampleController">
+<AnchorPane id="AnchorPane" minHeight="190.8200996948217" prefHeight="337.8200996948217" prefWidth="333.0000999999975" style="-fx-background-color: #E2E2E2;&#10;-fx-border-radius: 19;&#10;   " xmlns:fx="http://javafx.com/fxml" fx:controller="javafxapplication13.SampleController">
   <children>
     <Button fx:id="button" layoutX="81.0" layoutY="53.0" onAction="#handleButtonAction" prefWidth="186.0" text="Elegir archivo ..." />
-    <Label fx:id="label" layoutX="74.0" layoutY="274.0" minHeight="16.0" minWidth="69.0" prefHeight="16.0" prefWidth="210.0" />
+    <Label id="label" fx:id="labelClipboard" alignment="CENTER" layoutX="47.0" layoutY="259.0" minHeight="16.0" minWidth="69.0" prefHeight="39.0" prefWidth="248.0" wrapText="true" />
     <TextField fx:id="txtNombre" layoutX="134.0" layoutY="230.0" prefWidth="147.0" style="border-radius:5px;" />
     <Label layoutX="27.0" layoutY="233.0" text="Nombre de tabla sql:" />
     <Label layoutX="58.0" layoutY="12.0" text="Archivo plano a sql">
@@ -41,7 +41,7 @@
     <RadioButton fx:id="rbComa" layoutX="91.0" layoutY="191.0" mnemonicParsing="false" prefWidth="64.0" text="," toggleGroup="$grupo" />
     <RadioButton fx:id="rbBarras" layoutX="152.0" layoutY="191.0" mnemonicParsing="false" text="||" toggleGroup="$grupo" />
     <Button layoutX="305.0" layoutY="1.0" minHeight="16.0" minWidth="22.0" mnemonicParsing="false" onAction="#exit" prefHeight="17.0" prefWidth="27.0" text="X" textFill="#404040" textOverrun="LEADING_ELLIPSIS" />
-    <Button fx:id="buttonConvertir" layoutX="43.0" layoutY="289.0" mnemonicParsing="false" onAction="#convert" prefWidth="248.0" text="Convertir y descargar archivo sql" />
+    <Button fx:id="buttonConvertir" layoutX="46.0" layoutY="305.0" mnemonicParsing="false" onAction="#convert" prefWidth="248.0" text="Convertir a SQL" />
     <Label fx:id="lblSeparador" layoutX="30.0" layoutY="213.0" prefWidth="268.0" />
   </children>
 </AnchorPane>
